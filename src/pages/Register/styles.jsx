@@ -13,7 +13,7 @@ export const BackgroundFirst = styled.View`
 
 export const ImageBack = styled.Image`
     width: 100%;
-    height: 432px;
+    height: 286px;
 `
 export const ImageBack2 = styled.Image`
     width: auto;

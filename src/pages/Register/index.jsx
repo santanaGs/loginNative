@@ -1,22 +1,25 @@
+import React, { useState } from "react";
 import { useNavigation } from "@react-navigation/native"
-
-import firebase from "firebase";
 
 import { ContainerLogin, ImageBack, BackgroundImage, WelcomeText, BackgroundFirst, WelcomeTextDescription, InputContainer, InputLabel, InputContent, ButtonAcessar, TextButton, ButtonCadastrar, TextButtonCadastrar } from "./styles"
 
+import firebase from "firebase";
 
-import { useState } from "react";
+import { useFonts } from 'expo-font';
 
-export const Login = () => {
+export const Register = () => {
     const navigation = useNavigation();
 
     const [email, setEmail] = useState('');
     const [senha, setSenha] = useState('');
 
-    async function login(){
-        await firebase.auth().signInWithEmailAndPassword(email, senha).then(
-            () => {navigation.navigate('Home')}
-        ).catch(() => {alert('Ops ... algo deu errado!!!')})
+    async function register_function() {
+        await firebase.auth().createUserWithEmailAndPassword(email, senha).then((value) => {
+            navigation.navigate('Login')
+            alert("Cadastrado com Sucesso!!!")
+        }).catch(() => {
+            alert('Ops ... algo deu errado')
+        })
 
         setEmail('');
         setSenha('');
@@ -26,28 +29,28 @@ export const Login = () => {
         <ContainerLogin>
             <BackgroundFirst>
                 <ImageBack
-                    source={require('../../../assets/teste.png')}
+                    source={require('../../../assets/register.png')}
                 />
             </BackgroundFirst>
             <BackgroundImage>
                 <WelcomeText>
-                    Welcome Back!
+                    Register !!!
                 </WelcomeText>
                 <WelcomeTextDescription>
                     welcome back we missed you
                 </WelcomeTextDescription>
                 <InputContainer>
                     <InputLabel>
-                        Username
+                        Email
                     </InputLabel>
                     <InputContent
                         onChangeText={(text) => setEmail(text)}
                         value={email}
-                        placeholder='Username'
+                        placeholder='Email'
                     />
                 </InputContainer>
                 <InputContainer>
-                    <InputLabel >
+                    <InputLabel>
                         Password
                     </InputLabel>
                     <InputContent
@@ -57,20 +60,12 @@ export const Login = () => {
                     />
                 </InputContainer>
                 <ButtonAcessar
-                    onPress={login}
+                    onPress={register_function}
                 >
                     <TextButton>
-                        Sign in
+                        Register
                     </TextButton>
                 </ButtonAcessar>
-                <ButtonCadastrar
-                    onPress={() => { navigation.navigate('Register') }}
-                >
-                    <TextButtonCadastrar
-                        style={{ fontFamily: 'Poppins-Medium' }}>
-                        Register
-                    </TextButtonCadastrar>
-                </ButtonCadastrar>
 
 
 
