@@ -5,18 +5,25 @@ import firebase from "firebase";
 import { ContainerLogin, ImageBack, BackgroundImage, WelcomeText, BackgroundFirst, WelcomeTextDescription, InputContainer, InputLabel, InputContent, ButtonAcessar, TextButton, ButtonCadastrar, TextButtonCadastrar } from "./styles"
 
 
-import { useState } from "react";
+import { useState, useContext } from "react";
+import { AuthContext } from "../../contexts/auth";
+
 
 export const Login = () => {
     const navigation = useNavigation();
 
+    const { user, setUser } = useContext(AuthContext)
+
     const [email, setEmail] = useState('');
     const [senha, setSenha] = useState('');
 
-    async function login(){
+    async function login() {
         await firebase.auth().signInWithEmailAndPassword(email, senha).then(
-            () => {navigation.navigate('Home')}
-        ).catch(() => {alert('Ops ... algo deu errado!!!')})
+            (value) => {
+                setUser(value.user.uid)
+                navigation.navigate('Home')
+            }
+        ).catch(() => { alert('Ops ... algo deu errado!!!') })
 
         setEmail('');
         setSenha('');
@@ -66,8 +73,7 @@ export const Login = () => {
                 <ButtonCadastrar
                     onPress={() => { navigation.navigate('Register') }}
                 >
-                    <TextButtonCadastrar
-                        style={{ fontFamily: 'Poppins-Medium' }}>
+                    <TextButtonCadastrar>
                         Register
                     </TextButtonCadastrar>
                 </ButtonCadastrar>
